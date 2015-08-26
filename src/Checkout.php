@@ -8,16 +8,13 @@ class Checkout
     private $patron_id;
     private $checkin_status;
 
-    function __construct($id=null, $due_date, $copy_id, $patron_id, $checkin_status=0)
+    function __construct($id=null, $due_date, $copy_id, $patron_id, $checkin_status=1)
     {
         $this->id = $id;
         $this->due_date = $due_date;
         $this->copy_id = $copy_id;
         $this->patron_id = $patron_id;
         $this->checkin_status = $checkin_status;
-
-
-
     }
 
     function getId()
