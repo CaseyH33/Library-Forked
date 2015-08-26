@@ -6,8 +6,15 @@
 
 ## Description
 
-*** to do ***
-An input field accepts a "category" and adds it to a list. User can select the category and add a task with a due date. A list of all tasks in that category will be sorted and displayed by due date. User may delete all task within a category or all category (with containing tasks). User may also view an "all tasks" page ordered by category then due date.  
+
+
+* As a librarian:
+The user can search for book via "author's name" or "book's title".
+* As a patron:
+The user can check for available copies of a book and check out the copy of the book from the library. Patrons can view due date and history of checkouts.
+
+
+to do --->
 
 ## Setup
 When installing from source you may notice that once you have cloned this repo, that this project makes use of a PHP Dependency Manager: [Composer](https://github.com/composer/composer). Once you have Composer installed you can acquire any project dependencies via your shell by entering:
