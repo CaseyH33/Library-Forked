@@ -6,7 +6,7 @@ class Author
     private $author_name;
     private $id;
 
-    function __construct($author_name, $id=null)
+    function __construct($author_name, $id=NULL)
     {
         $this->author_name = $author_name;
         $this->id = $id;
@@ -33,6 +33,19 @@ class Author
         $this->id = $GLOBALS['DB']->lastInsertId();
     }
 
+    static function find($search_id)
+{
+    $found_author = "";
+    $authors = Author::getAll();
+    foreach($authors as $author) {
+        $author_id = $author->getId();
+        if ($author_id == $search_id) {
+            $found_author = $author;
+        }
+    }
+    return $found_author;
+}
+
     static function getAll()
     {
         $returned_authors = $GLOBALS['DB']->query("SELECT * FROM authors_t;");
@@ -52,12 +65,6 @@ class Author
         $GLOBALS['DB']->exec("DELETE FROM authors_t;");
     }
 
-
-
 }
-
-
-
-
 
  ?>
