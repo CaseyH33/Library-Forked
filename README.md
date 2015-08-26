@@ -14,7 +14,7 @@ The user can search for book via "author's name" or "book's title".
 The user can check for available copies of a book and check out the copy of the book from the library. Patrons can view due date and history of checkouts.
 
 
-to do --->
+
 
 ## Setup
 When installing from source you may notice that once you have cloned this repo, that this project makes use of a PHP Dependency Manager: [Composer](https://github.com/composer/composer). Once you have Composer installed you can acquire any project dependencies via your shell by entering:
@@ -29,15 +29,7 @@ _You then only need to start up a local PHP server from within the "web" directo
 
 ## Database Setup
 
-```
--> CREATE DATABASE library;
-
--> USE library;
-
-
-
-
-```
+Exported DB file can found in DB folder.
 
 To produce the "library_test" database, make a copy via myPHPadmin by selecting "library" and clicking the "Operations" tab. You will see a "copy database to:" section, fill the input with "library_test", select "Structure only", and click "Go".
 
@@ -47,7 +39,10 @@ _This project makes use of PHP, mySQL, the testing framework [PHPUnit](https://p
 
 ## To Do
 
-???
+* finish classes: Book, Checkout, Patron /with tests
+* build silex
+* build twig
+* profit
 
 ### Legal
 
