@@ -198,8 +198,6 @@
             $test_author->addBook($test_book2);
 
             $this->assertEquals([$test_book,$test_book2], $test_author->getBooks());
-
-
         }
 
     }

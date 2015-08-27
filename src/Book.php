@@ -27,7 +27,7 @@ class Book
         return $this->id;
     }
 
-        function save()
+    function save()
     {
         $GLOBALS['DB']->exec("INSERT INTO books_t (title) VALUES ('{$this->getTitle()}');");
         $this->id=$GLOBALS['DB']->lastInsertId();
@@ -69,6 +69,62 @@ class Book
       return $authors;
     }
 
+    function addCopies($copies_number)
+    {
+        $book_id = $this->getId();
+        for($i = 0; $i < $copies_number; $i++){
+            $GLOBALS['DB']->exec("INSERT INTO copies_t (book_id) VALUES ({$book_id});");
+        }
+    }
+
+    //get copies from copies table that corrospond to this book_id
+    function getAllCopies()
+    {
+        $returned_copies = $GLOBALS['DB']->query("SELECT * FROM copies_t WHERE book_id = {$this->getId()};");
+        $count = 0;
+        foreach($returned_copies as $copy) {
+            $count = $count + 1;
+        }
+        return $count;
+    }
+
+    function getAvailableCopies()
+    {
+        $returned_checkouts = $GLOBALS['DB']->query("SELECT checkouts_t.* FROM
+                                books_t JOIN copies_t ON (books_t.id = copies_t.book_id)
+                                JOIN checkouts_t ON (copies_t.id = checkouts_t.copy_id)
+                                WHERE books_t.id = {$this->getId()} AND checkouts_t.checkin_status = 0;");
+
+        // $returned_checkouts = $GLOBALS['DB']->query("SELECT checkouts_t.* FROM
+        //                         books_t JOIN copies_t ON (books_t.id = copies_t.book_id)
+        //                         JOIN checkouts_t ON (copies_t.id = checkouts_t.copy_id)
+        //                         WHERE books_t.id = {$this->getId()} AND checkouts_t.checkin_status = 1;");
+        $checkouts = array();
+        foreach($returned_checkouts as $checkout) {
+            $due_date = $checkout['due_date'];
+            $copy_id = $checkout['copy_id'];
+            $patron_id = $checkout['patron_id'];
+            $checkin_status = $checkout['checkin_status'];
+            $id = $checkout['id'];
+            $new_checkout = new Checkout($due_date, $copy_id, $patron_id, $checkin_status, $id);
+            array_push($checkouts, $new_checkout);
+        }
+        return $checkouts;
+
+    }
+
+    function findBookTitle($search_title)
+    {
+        $returned_books = array();
+        foreach(Book::getAll() as $book)
+        {
+            if($book->getTitle() == $search_title) {
+                array_push($returned_books, $book);
+            }
+        }
+        return $returned_books;
+    }
+
     static function getAll()
     {
       $returned_books = $GLOBALS['DB']->query("SELECT * FROM books_t ORDER BY title;");
@@ -85,6 +141,7 @@ class Book
     static function deleteAll()
     {
       $GLOBALS['DB']->exec("DELETE FROM books_t;");
+      $GLOBALS['DB']->exec("DELETE FROM copies_t;");
     }
 
     static function find($search_id)

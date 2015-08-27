@@ -94,6 +94,7 @@ class Checkout
         $this->setCheckinStatus(1);
     }
 
+
     static function getAll()
     {
         $returned_checkouts = $GLOBALS['DB']->query("SELECT * FROM checkouts_t;");

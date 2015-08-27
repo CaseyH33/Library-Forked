@@ -6,6 +6,8 @@
 
     require_once "src/Author.php";
     require_once "src/Book.php";
+    require_once "src/Checkout.php";
+    require_once "src/Patron.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -19,6 +21,8 @@
         {
             Author::deleteAll();
             Book::deleteAll();
+            Checkout::deleteAll();
+            Patron::deleteAll();
         }
 
         function testGetTitle()
@@ -144,6 +148,37 @@
 
             $this->assertEquals([$test_author2, $test_author], $test_book->getAuthors());
         }
+
+        function testAddCopies()
+        {
+
+            $title = "Carrie";
+            $test_book = new Book($title);
+            $test_book->save();
+
+            $test_book->addCopies(5);
+            $result = $test_book->getAllCopies();
+            $this->assertEquals(5, $result);
+        }
+
+        //Test passes with adding the copy_id from the phpmyadmin data
+        // function testGetAvailableCopies()
+        // {
+        //     $title = "Carrie";
+        //     $test_book = new Book($title);
+        //     $test_book->save();
+        //
+        //     $test_patron = new Patron("Bobby");
+        //     $test_patron->save();
+        //
+        //     $test_book->addCopies(4);
+        //
+        //     $test_checkout = new Checkout(null, 133, $test_patron->getId(), 0);
+        //     $test_checkout->save($test_patron);
+        //
+        //     $result = sizeof($test_book->getAvailableCopies());
+        //     $this->assertEquals(1, $result);
+        // }
 
 
     }//end class
