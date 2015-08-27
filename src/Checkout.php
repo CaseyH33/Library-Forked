@@ -8,7 +8,7 @@ class Checkout
     private $checkin_status;
     private $id;
 
-    function __construct($due_date, $copy_id, $patron_id, $checkin_status=1, $id=null)
+    function __construct($due_date, $copy_id, $patron_id, $checkin_status, $id=null)
     {
         $this->due_date = $due_date;
         $this->copy_id = $copy_id;
@@ -67,6 +67,14 @@ class Checkout
         $GLOBALS['DB']->exec("INSERT INTO checkouts_t (due_date, copy_id, patron_id, checkin_status)
                             VALUES ('{$this->getDueDate()}', {$this->getCopyId()}, {$this->getPatronId()}, {$this->getCheckinStatus()});");
         $this->id=$GLOBALS['DB']->lastInsertId();
+    }
+
+    //Function to mark a copy as checked in. Updates checkin_status to true and due_date to null
+    function checkIn()
+    {
+        $GLOBALS['DB']->exec("UPDATE checkouts_t SET due_date = null, checkin_status = 1 WHERE id = {$this->getId()};");
+        $this->setDueDate(null);
+        $this->setCheckinStatus(1);
     }
 
     static function getAll()

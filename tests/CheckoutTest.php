@@ -122,6 +122,21 @@
 
             $this->assertEquals($test_checkout, $result[0]);
         }
+
+        function testCheckIn()
+        {
+            $due_date = "2015-09-01";
+            $copy_id = 1;
+            $patron_id = 1;
+            $checkin_status = 1;
+            $test_checkout = new Checkout($due_date, $copy_id, $patron_id, $checkin_status);
+            $test_checkout->save();
+            $test_checkout->checkIn();
+
+            $result = $test_checkout->getCheckinStatus();
+
+            $this->assertEquals(1, $result);
+        }
     }
 
 ?>
