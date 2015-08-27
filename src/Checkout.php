@@ -73,12 +73,11 @@ class Checkout
         else {
             $GLOBALS['DB']->exec("INSERT INTO checkouts_t (due_date, copy_id, patron_id, checkin_status)
                             VALUES (date_add('{$date}', INTERVAL 14 day), {$this->getCopyId()}, {$patron->getId()}, {$this->getCheckinStatus()});");
-                            //$this->setDueDate($date)
         }
 
         $this->id=$GLOBALS['DB']->lastInsertId();
         $due_date_query = $GLOBALS['DB']->query("SELECT due_date FROM checkouts_t WHERE id = {$this->getId()};");
-        //var_dump($due_date_query);
+
             foreach($due_date_query as $tdd){
 
                 $my_due_date = $tdd['due_date'];

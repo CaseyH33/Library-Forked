@@ -99,7 +99,6 @@
             $checkin_status = 1;
             $test_checkout = new Checkout($due_date, $copy_id, $test_patron->getId(), $checkin_status);
             $test_checkout->save($test_patron, $due_date);
-            // var_dump($test_checkout->getDueDate());//word to the wise -- var dumping a method writing things to a database still sabves the stuff in the database....doh!
 
             $due_date2 = "2015-09-10";
             $copy_id2 = 2;
@@ -109,7 +108,6 @@
             $test_checkout2->save($test_patron);
 
             $result = Checkout::getAll();
-            //var_dump($result[0]->getDueDate());
 
             $this->assertEquals([$test_checkout, $test_checkout2], $result);
         }
