@@ -18,6 +18,7 @@
         protected function tearDown()
         {
             Author::deleteAll();
+            Book::deleteAll();
         }
 
         function test_author_getAuthorName()
@@ -137,7 +138,69 @@
             $this->assertEquals($test_author2, $result);
         }
 
-        
+        function testUpdate()
+        {
+            $author_name = "Stephen King";
+            $test_author = new Author($author_name);
+            $test_author->save();
+
+            $new_name = "Neal Stephenson";
+            $test_author->update($new_name);
+
+            $this->assertEquals($new_name,$test_author->getAuthorName());
+        }
+
+        function testDelete()
+        {
+            $author_name = "Stephen King";
+            $test_author = new Author($author_name);
+            $test_author->save();
+
+            $author_name2 = "Neal Stephenson";
+            $test_author2 = new Author($author_name2);
+            $test_author2->save();
+
+            $test_author->delete();
+
+            $this->assertEquals([$test_author2], Author::getAll());
+        }
+
+        function testAddBook()
+        {
+            $author_name = "Stephen King";
+            $test_author = new Author($author_name);
+            $test_author->save();
+
+
+            $title = "Carrie";
+            $test_book = new Book($title);
+            $test_book->save();
+            $test_author->addBook($test_book);
+
+            $this->assertEquals($test_author->getBooks(),[$test_book]);
+        }
+
+        function testGetBooks()
+        {
+            $author_name = "Stephen King";
+            $test_author = new Author($author_name);
+            $test_author->save();
+
+
+            $title = "Carrie";
+            $test_book = new Book($title);
+            $test_book->save();
+            $test_author->addBook($test_book);
+
+            $title2 = "Misery";
+            $test_book2 = new Book($title2);
+            $test_book2->save();
+            $test_author->addBook($test_book2);
+
+            $this->assertEquals([$test_book,$test_book2], $test_author->getBooks());
+
+
+        }
 
     }
 ?>
