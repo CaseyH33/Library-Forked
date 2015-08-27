@@ -2,24 +2,19 @@
 
 class Checkout
 {
-    private $id;
     private $due_date;
     private $copy_id;
     private $patron_id;
     private $checkin_status;
+    private $id;
 
-    function __construct($id=null, $due_date, $copy_id, $patron_id, $checkin_status=1)
+    function __construct($due_date, $copy_id, $patron_id, $checkin_status=1, $id=null)
     {
-        $this->id = $id;
         $this->due_date = $due_date;
         $this->copy_id = $copy_id;
         $this->patron_id = $patron_id;
         $this->checkin_status = $checkin_status;
-    }
-
-    function getId()
-    {
-        return $this->id;
+        $this->id = $id;
     }
 
     function getDueDate()
@@ -60,6 +55,16 @@ class Checkout
     function setCheckinStatus($new_checkin_status)
     {
         $this->checkin_status = $new_checkin_status;
+    }
+
+    function getId()
+    {
+        return $this->id;
+    }
+
+    static function deleteAll()
+    {
+        $GLOBALS['DB']->exec("DELETE FROM checkouts_t;");
     }
 
 
