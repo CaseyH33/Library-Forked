@@ -2,7 +2,7 @@
 
 #### _Library app built to work with "many to many" mySQL database, 8/18/2015_
 
-#### By _**Charles Moss & Austin Blanchard**_
+#### By _**Charles Moss, Austin Blanchard, Casey Heitz & Mike Chastain**_
 
 ## Description
 
@@ -39,14 +39,13 @@ _This project makes use of PHP, mySQL, the testing framework [PHPUnit](https://p
 
 ## To Do
 
-* finish classes: Book, Checkout, Patron /with tests
 * build silex
 * build twig
 * profit
 
 ### Legal
 
-Copyright (c) 2015 Charles A Moss & Austin Blanchard
+Copyright (c) 2015 Charles A Moss, Mike Chastain, Casey Heitz & Austin Blanchard
 
 This software is licensed under the MIT license.
 
