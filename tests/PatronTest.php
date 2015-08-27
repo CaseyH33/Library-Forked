@@ -135,7 +135,26 @@
 
         function testGetCurrentCheckouts()
         {
-            //Need to add after building checkout
+            $patron_name = "Randy Mclure";
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $due_date = null;
+            $copy_id = 1;
+            $checkin_status = 1;
+            $test_checkout = new Checkout($due_date, $copy_id, $test_patron->getId(), $checkin_status);
+            $test_checkout->save($test_patron, $due_date);
+            $test_checkout->checkIn();
+
+            $due_date2 = null;
+            $copy_id2 = 2;
+            $checkin_status2 = 0;
+            $test_checkout2 = new Checkout($due_date2, $copy_id2, $test_patron->getId(), $checkin_status2);
+            $test_checkout2->save($test_patron);
+
+            $result = $test_patron->getCurrentCheckouts();
+
+            $this->assertEquals([$test_checkout2], $result);
         }
 
     }

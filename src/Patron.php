@@ -63,8 +63,20 @@ class Patron
 
       function getCurrentCheckouts()
       {
-          //Will list all books currently checked out by this patron
-          //Need to add after building checkout
+          $returned_checkouts = $GLOBALS['DB']->query("SELECT * FROM checkouts_t WHERE patron_id = {$this->getId()}; ORDER BY due_date");
+          $checkouts = array();
+          foreach($returned_checkouts as $checkout) {
+              $due_date = $checkout['due_date'];
+              $copy_id = $checkout['copy_id'];
+              $patron_id = $checkout['patron_id'];
+              $checkin_status = $checkout['checkin_status'];
+              $id = $checkout['id'];
+              $new_checkout = new Checkout($due_date, $copy_id, $patron_id, $checkin_status, $id);
+              if($checkin_status == 0) {
+                  array_push($checkouts, $new_checkout);
+              }
+          }
+          return $checkouts;
       }
 
       static function getAll()
