@@ -63,11 +63,28 @@ class Checkout
     }
 
     //Saves a new checkout and sets due date to current date plus 14 days
-    function save($patron)
+    function save($patron, $date=null)
     {
-        $GLOBALS['DB']->exec("INSERT INTO checkouts_t (due_date, copy_id, patron_id, checkin_status)
+        if($date == null) {
+            $GLOBALS['DB']->exec("INSERT INTO checkouts_t (due_date, copy_id, patron_id, checkin_status)
                             VALUES (date_add(now(), INTERVAL 14 day), {$this->getCopyId()}, {$patron->getId()}, {$this->getCheckinStatus()});");
+
+        }
+        else {
+            $GLOBALS['DB']->exec("INSERT INTO checkouts_t (due_date, copy_id, patron_id, checkin_status)
+                            VALUES (date_add('{$date}', INTERVAL 14 day), {$this->getCopyId()}, {$patron->getId()}, {$this->getCheckinStatus()});");
+                            //$this->setDueDate($date)
+        }
+
         $this->id=$GLOBALS['DB']->lastInsertId();
+        $due_date_query = $GLOBALS['DB']->query("SELECT due_date FROM checkouts_t WHERE id = {$this->getId()};");
+        //var_dump($due_date_query);
+            foreach($due_date_query as $tdd){
+
+                $my_due_date = $tdd['due_date'];
+                $this->setDueDate($my_due_date);
+            }
+        // $this->setDueDate($due_date_query[0]['due_date']);
     }
 
     //Function to mark a copy as checked in. Updates checkin_status to true and due_date to null
