@@ -45,12 +45,6 @@ class Patron
           $GLOBALS['DB']->exec("DELETE FROM patrons_t WHERE id = {$this->getId()};");
       }
 
-      function addCheckout()
-      {
-          //Will add a new checkout for the patron
-          //Need to add after building checkout
-      }
-
       function getCheckoutHistory()
       {
           //Will list all checkouts in this patrons history

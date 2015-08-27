@@ -6,7 +6,7 @@
     */
 
     require_once "src/Checkout.php";
-    //require_once "src/Copy.php";
+    require_once "src/Patron.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -19,11 +19,12 @@
         {
 
             Checkout::deleteAll();
+            Patron::deleteAll();
         }
 
         function testGetDueDate()
         {
-            $due_date = "2015-09-01";
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
@@ -36,7 +37,7 @@
 
         function testGetCopyId()
         {
-            $due_date = "2015-09-01";
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
@@ -49,7 +50,7 @@
 
         function testGetPatronId()
         {
-            $due_date = "2015-09-01";
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
@@ -62,7 +63,7 @@
 
         function testGetCheckinStatus()
         {
-            $due_date = "2015-09-01";
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
@@ -75,7 +76,7 @@
 
         function testGetId()
         {
-            $due_date = "2015-09-01";
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
@@ -88,21 +89,24 @@
 
         function testGetAll()
         {
+            $patron_name = "Randy Mclure";
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
 
-            $due_date = "2015-09-01";
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
-            $test_checkout = new Checkout($due_date, $copy_id, $patron_id, $checkin_status);
-            $test_checkout->save();
+            $test_checkout = new Checkout($due_date, $copy_id, $test_patron->getId(), $checkin_status);
+            $test_checkout->save($test_patron);
             //var_dump($test_checkout->save());//word to the wise -- var dumping a method writing things to a database still sabves the stuff in the database....doh!
 
-            $due_date2 = "2015-09-02";
+            $due_date2 = "2015-09-10";
             $copy_id2 = 2;
             $patron_id2 = 3;
             $checkin_status2 = 0;
-            $test_checkout2 = new Checkout($due_date2, $copy_id2, $patron_id2, $checkin_status2);
-            $test_checkout2->save();
+            $test_checkout2 = new Checkout($due_date2, $copy_id2, $test_patron->getId(), $checkin_status2);
+            $test_checkout2->save($test_patron);
 
             $result = Checkout::getAll();
 
@@ -111,12 +115,16 @@
 
         function testSave()
         {
-            $due_date = "2015-09-01";
+            $patron_name = "Randy Mclure";
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
-            $test_checkout = new Checkout($due_date, $copy_id, $patron_id, $checkin_status);
-            $test_checkout->save();
+            $test_checkout = new Checkout($due_date, $copy_id, $test_patron->getId(), $checkin_status);
+            $test_checkout->save($test_patron);
 
             $result = Checkout::getAll();
 
@@ -125,18 +133,23 @@
 
         function testCheckIn()
         {
-            $due_date = "2015-09-01";
+            $patron_name = "Randy Mclure";
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $due_date = "2015-09-10";
             $copy_id = 1;
             $patron_id = 1;
             $checkin_status = 1;
-            $test_checkout = new Checkout($due_date, $copy_id, $patron_id, $checkin_status);
-            $test_checkout->save();
+            $test_checkout = new Checkout($due_date, $copy_id, $test_patron->getId(), $checkin_status);
+            $test_checkout->save($test_patron);
             $test_checkout->checkIn();
 
             $result = $test_checkout->getCheckinStatus();
 
             $this->assertEquals(1, $result);
         }
+
     }
 
 ?>

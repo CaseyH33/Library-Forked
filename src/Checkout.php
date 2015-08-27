@@ -62,10 +62,11 @@ class Checkout
         return $this->id;
     }
 
-    function save()
+    //Saves a new checkout and sets due date to current date plus 14 days
+    function save($patron)
     {
         $GLOBALS['DB']->exec("INSERT INTO checkouts_t (due_date, copy_id, patron_id, checkin_status)
-                            VALUES ('{$this->getDueDate()}', {$this->getCopyId()}, {$this->getPatronId()}, {$this->getCheckinStatus()});");
+                            VALUES (date_add(now(), INTERVAL 14 day), {$this->getCopyId()}, {$patron->getId()}, {$this->getCheckinStatus()});");
         $this->id=$GLOBALS['DB']->lastInsertId();
     }
 

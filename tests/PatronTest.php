@@ -7,7 +7,7 @@
     */
 
     require_once "src/Patron.php";
-    //require_once "src/Copy.php";
+    require_once "src/Checkout.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -19,7 +19,7 @@
         protected function tearDown()
         {
             Patron::deleteAll();
-            //Checkout::deleteAll();
+            Checkout::deleteAll();
         }
 
         function testGetName()
@@ -78,7 +78,6 @@
             $test_patron2 = new Patron($patron_name2);
             $test_patron2->save();
 
-
             $result = Patron::find($test_patron->getId());
 
             $this->assertEquals($result,$test_patron);
@@ -109,11 +108,6 @@
             $test_patron->delete();
 
             $this->assertEquals([$test_patron2], Patron::getAll());
-        }
-
-        function testAddCheckout()
-        {
-            //Need to add after building checkout
         }
 
         function testGetCheckoutHistory()
